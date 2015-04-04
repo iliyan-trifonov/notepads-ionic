@@ -1,0 +1,25 @@
+<ion-view title="Notepad Delete" hide-back-button="true">
+    <ion-content padding="true"
+                 class="has-header"
+                 ng-show="notepad"
+    >
+
+        <div class="row text-center">
+            Are you sure you want to delete notepad '{{notepad.title}}' ?
+        </div>
+
+        <div class="row">
+            <div class="col text-right">
+                <button class="button button-assertive"
+                        ng-click="delete()"
+                >Delete</button>
+            </div>
+            <div class="col text-left">
+                <button class="button"
+                        ng-click="cancel()"
+                >Cancel</button>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

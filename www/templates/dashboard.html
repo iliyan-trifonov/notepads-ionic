@@ -1,0 +1,27 @@
+<ion-view title="Dashboard" hide-back-button="true">
+
+    <ion-nav-buttons side="primary">
+        <a class="button button-icon ion-plus-circled" href="#/notepads/add"></a>
+    </ion-nav-buttons>
+
+    <ion-content padding="true"
+                 class="has-header"
+    >
+
+        <ion-list ng-repeat="cat in cats | orderBy: 'name'">
+
+            <ion-item class="item-divider">
+                {{cat.name}}
+            </ion-item>
+
+            <ion-item href="#/notepads/{{notepad._id}}"
+                      ng-repeat="notepad in cat.notepads | orderBy: '-_id'"
+                    >
+                {{notepad.title}}
+            </ion-item>
+
+            <div class="spacer" style="width: 100%; height: 10px;"></div>
+        </ion-list>
+
+    </ion-content>
+</ion-view>

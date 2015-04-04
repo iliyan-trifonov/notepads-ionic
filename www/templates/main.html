@@ -1,0 +1,19 @@
+<ion-view title="Notepads" hide-back-button="true">
+    <ion-content padding="true"
+                 class="has-header"
+            >
+
+        <button class="button button-full button-positive"
+                ng-click="login()"
+                ng-if="!isLoggedIn">
+            Login with Facebook
+        </button>
+
+        <div class="row" ng-if="isLoggedIn">
+            <div class="col text-center">
+                Pres Back again to exit
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
