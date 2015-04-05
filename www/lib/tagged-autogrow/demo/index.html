@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Infinite Scroll for AngularJS by Tagged</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.js"></script>
+<script type="text/javascript" src="../taggedAutogrow.js"></script>
+<link type="text/css" rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"></link>
+</head>
+<body ng-app="Demo" ng-cloak>
+<div class="container">
+  <h2>Autogrow</h2>
+
+  <div ng-controller="AutogrowDemoController">
+    <textarea ng-model="myModel" tagged-autogrow></textarea>
+  </div>
+</div>
+
+<script type="text/javascript">
+<!--
+var demo = angular.module('Demo', ['tagged.directives.autogrow']);
+
+function AutogrowDemoController($scope) {
+  
+}
+//-->
+</script>
+
+</body>
+</html>

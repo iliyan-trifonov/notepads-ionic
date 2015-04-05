@@ -1,0 +1,37 @@
+{
+  "name": "tagged-autogrow",
+  "version": "1.0.2",
+  "authors": [
+    "Hector Virgen <hvirgen@tagged.com>"
+  ],
+  "description": "Autogrow for AngularJS",
+  "main": "taggedAutogrow.js",
+  "keywords": [
+    "Angular",
+    "Directive",
+    "Autogrow"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.3",
+    "angular-mocks": "~1.2.3",
+    "jquery": "1.10.2"
+  },
+  "homepage": "https://github.com/tagged/autogrow",
+  "_release": "1.0.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.2",
+    "commit": "a576e1d412b85c3fdd40b8a593ba8ea849a46cff"
+  },
+  "_source": "git://github.com/tagged/autogrow.git",
+  "_target": "~1.0.2",
+  "_originalSource": "tagged-autogrow",
+  "_direct": true
+}

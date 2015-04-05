@@ -135,7 +135,7 @@ angular.module('Notepads.controllers', [])
 
             if ($stateParams.id) {
                 Api.notepads.update($scope.notepad).success(function (notepad) {
-                    $ionicLoading.hide();
+                    loading.hide();
                     console.log('notepad updated', notepad);
                     goToDashboard();
                 });
@@ -175,7 +175,7 @@ angular.module('Notepads.controllers', [])
                         loading.hide();
                     });
             } else {
-                loading.hide()();
+                loading.hide();
             }
         }).error(function (data, status, headers, object) {
             loading.hide();
