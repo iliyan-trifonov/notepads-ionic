@@ -1,1 +1,10 @@
 /* Empty. Add your own CSS if you like */
+
+.scroll, .list.full, .item.full {
+    height: 100% !important;
+}
+
+textarea.full {
+    width: 100% !important;
+    height: 83% !important;
+}
