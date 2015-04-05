@@ -2,26 +2,22 @@
 
     <ion-content padding="true"
                  ng-show="notepad"
-                 has-bouncing="true"
-    >
+                 has-bouncing="true">
+        <div class="item item-divider">
+            {{notepad.title}}
+        </div>
 
-            <div class="item item-divider">
-                {{notepad.title}}
-            </div>
-
-            <div class="item item-text-wrap"
-                 ng-bind-html="notepad.text"
-            ></div>
-
-
+        <div class="item item-text-wrap"
+             ng-bind-html="notepad.text"
+        ></div>
     </ion-content>
 
     <ion-footer-bar class="bar">
         <div class="button-bar">
             <a class="button button-icon icon ion-edit"
-               href="#/notepads/{{notepad._id}}/edit"></a>
+               href="#/app/notepads/{{notepad._id}}/edit"></a>
             <a class="button button-icon icon ion-android-delete assertive"
-               href="#/notepads/{{notepad._id}}/delete"></a>
+               href="#/app/notepads/{{notepad._id}}/delete"></a>
         </div>
     </ion-footer-bar>
 

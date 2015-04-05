@@ -1,0 +1,25 @@
+<ion-view title="Categories">
+
+    <ion-nav-buttons side="primary">
+        <a class="button button-icon ion-plus-circled"
+           href="#/app/categories/add"></a>
+    </ion-nav-buttons>
+
+    <ion-content padding="true"
+                 class="has-header"
+                 has-bouncing="true">
+
+        <ion-list ng-repeat="cat in categories | orderBy: 'name'">
+            <ion-item class="item-button-right">
+                {{cat.name}} <small>({{cat.notepadsCount}})</small>
+                <div class="buttons">
+                <a class="button button-icon icon ion-edit"
+                   href="#/app/categories/{{cat._id}}/edit"></a>
+                <a class="button button-icon icon ion-android-delete assertive"
+                   href="#/app/categories/{{cat._id}}/delete"></a>
+                </div>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+</ion-view>

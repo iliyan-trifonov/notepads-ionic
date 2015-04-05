@@ -1,23 +1,26 @@
-<ion-view title="Notepad Delete">
+<ion-view title="Category :: Delete">
     <ion-content padding="true"
                  class="has-header"
-                 ng-show="notepad"
-    >
+                 ng-show="category"
+            >
 
         <div class="row text-center">
-            Are you sure you want to delete notepad '{{notepad.title}}' ?
+            Are you sure you want to delete category '{{category.name}}' ?
+        </div>
+        <div class="row assertive">
+            This will delete ALL Notepads in that category!
         </div>
 
         <div class="row">
             <div class="col text-right">
                 <button class="button button-assertive"
                         ng-click="remove()"
-                >Delete</button>
+                        >Delete</button>
             </div>
             <div class="col text-left">
                 <button class="button"
                         ng-click="cancel()"
-                >Cancel</button>
+                        >Cancel</button>
             </div>
         </div>
 

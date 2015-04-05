@@ -1,0 +1,29 @@
+<ion-view title="Category :: {{topTitle}}">
+
+    <ion-content ng-show="category || isAdd"
+                 has-bouncing="true"
+                 overflow-scroll="true"
+    >
+
+        <div class="list full">
+            <label class="item item-input">
+                <input type="text"
+                       placeholder="Name"
+                       ng-model="category.name" />
+            </label>
+        </div>
+
+    </ion-content>
+
+    <ion-footer-bar class="bar">
+        <div class="button-bar">
+            <a class="button button-positive"
+               ng-click="update()"
+               ng-disabled="!category.name">{{btnTxt}}</a>
+
+            <a class="button"
+               ng-click="cancel()">Cancel</a>
+        </div>
+    </ion-footer-bar>
+
+</ion-view>
