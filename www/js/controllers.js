@@ -11,17 +11,21 @@ angular.module('Notepads.controllers', [])
         });
 
         $scope.login = function () {
-            $ionicPlatform.ready(function() {
-                $cordovaOauth.facebook(facebookAppID, []).then(function (result) {
-                    console.log('FB result', result);
-                    /*initUser(
-                     result.id,
-                     result.name,
-                     result.access_token
-                     );*/
-                }, function (error) {
-                    console.log('FB error', error);
+            facebookConnectPlugin.login([], function (result) {
+                console.log('FB success', JSON.stringify(result));
+                console.log('calling /me ..');
+                facebookConnectPlugin.api('/me?fields=id,name,picture', [],function (result) {
+                    console.log('/me success', JSON.stringify(result));
+                    initUser(
+                        result.id,
+                        result.name,
+                        result.access_token
+                    );
+                }, function (result) {
+                    console.log('/me error', JSON.stringify(result));
                 });
+            }, function (error) {
+                console.log('FB error', JSON.stringify(result));
             });
         };
 
