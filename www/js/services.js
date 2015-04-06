@@ -15,7 +15,15 @@ angular.module('Notepads.services', [])
                 );*/
             },
             set: function(user) {
-                return window.localStorage.setItem(JSON.stringify(user));
+                return window.localStorage.setItem('user', JSON.stringify(user));
+            },
+            create: function (fbId, name, accessToken) {
+                var user = {
+                    facebookId: fbId,
+                    name: name,
+                    accessToken: accessToken
+                };
+                this.set(user);
             }
         };
     }

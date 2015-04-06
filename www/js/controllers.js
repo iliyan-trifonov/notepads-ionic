@@ -3,23 +3,26 @@
 angular.module('Notepads.controllers', [])
 
 .controller('AppCtrl', [
-    '$scope', '$state', 'loading', 'goToDashboard', 'User', '$cordovaOauth', '$ionicPlatform', 'facebookAppID',
-    function ($scope, $state, loading, goToDashboard, User, $cordovaOauth, $ionicPlatform, facebookAppID) {
+    '$scope', '$state', 'loading', 'goToDashboard', 'User', '$ionicPlatform', 'Api',
+    function ($scope, $state, loading, goToDashboard, User, $ionicPlatform, Api) {
 
         $ionicPlatform.ready(function() {
             console.log('ionic platform ready');
         });
 
         $scope.login = function () {
-            facebookConnectPlugin.login([], function (result) {
-                console.log('FB success', JSON.stringify(result));
+            console.log('login() called');
+            loading.show();
+            facebookConnectPlugin.login([], function (loginResult) {
+                console.log('FB success', JSON.stringify(loginResult));
                 console.log('calling /me ..');
-                facebookConnectPlugin.api('/me?fields=id,name,picture', [],function (result) {
-                    console.log('/me success', JSON.stringify(result));
+                facebookConnectPlugin.api('/me?fields=id,name,picture', [],function (meResult) {
+                    console.log('/me success', JSON.stringify(meResult));
                     initUser(
-                        result.id,
-                        result.name,
-                        result.access_token
+                        loginResult.authResponse.userID,
+                        meResult.name,
+                        loginResult.authResponse.accessToken,
+                        goToDashboard
                     );
                 }, function (result) {
                     console.log('/me error', JSON.stringify(result));
@@ -48,20 +51,20 @@ angular.module('Notepads.controllers', [])
         };
 
         function initUser(fbId, name, fbAccessToken, cb) {
-            //console.log('initUser() called', fbId, name, fbAccessToken);
+            console.log('initUser() called', fbId, name, fbAccessToken);
             Api.users.auth(fbId, fbAccessToken)
                 .success(function (data) {
                     User.create(fbId, name, data.accessToken);
                     $scope.isLoggedIn = true;
-                    $ionicLoading.hide();
+                    loading.hide();
                     if ("function" === typeof cb) {
                         cb();
                     }
                 })
                 .error(function (data, status) {
-                    $ionicLoading.hide();
+                    loading.hide();
                     $scope.appError = 'initUser error ' + status + ', ' + data;
-                    //console.log($scope.appError);
+                    console.log($scope.appError);
                 });
         }
 
@@ -78,7 +81,7 @@ angular.module('Notepads.controllers', [])
             console.log('local user exists');
             $scope.isLoggedIn = true;
             loading.hide();
-            //goToDashboard();
+            goToDashboard();
         }
 
     }
