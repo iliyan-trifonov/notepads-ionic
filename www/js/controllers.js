@@ -3,8 +3,8 @@
 angular.module('Notepads.controllers', [])
 
 .controller('AppCtrl', [
-    '$scope', '$state', 'loading', 'goToDashboard', 'User', 'Api', '$ionicHistory',
-    function ($scope, $state, loading, goToDashboard, User, Api, $ionicHistory) {
+    '$scope', '$state', 'loading', 'goToDashboard', 'User', 'Api', '$ionicHistory', '$ionicPlatform',
+    function ($scope, $state, loading, goToDashboard, User, Api, $ionicHistory, $ionicPlatform) {
 
         $scope.login = function () {
             console.log('login() called');
@@ -83,12 +83,14 @@ angular.module('Notepads.controllers', [])
 
         $scope.isLoggedIn = false;
 
-        //mock (alfa)
-        //for testing in the browser
-        if ('undefined' === typeof facebookConnectPlugin) {
-            $scope.isLoggedIn = true;
-            //TODO: add/save fake user that can access the API
-        }
+        $ionicPlatform.ready(function() {
+            //mock (alfa)
+            //for testing in the browser
+            if ('undefined' === typeof facebookConnectPlugin) {
+                $scope.isLoggedIn = true;
+                //TODO: add/save fake user that can access the API
+            }
+        });
 
         loading.show();
 
