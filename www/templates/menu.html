@@ -14,7 +14,9 @@
 
     <ion-side-menu side="left">
         <ion-header-bar class="bar-stable">
-            <h1 class="title">Notepads</h1>
+            <h1 class="title" ng-if="!isLoggedIn">Notepads</h1>
+            <img src="{{user.photo}}" height="35" ng-if="isLoggedIn" />
+            <h1 class="title" ng-if="isLoggedIn">{{user.name}}</h1>
         </ion-header-bar>
         <ion-content>
             <ion-list>
@@ -42,6 +44,11 @@
                           ng-if="isLoggedIn"
                           ng-click="addCategory()">
                     Add Category
+                </ion-item>
+                <ion-item nav-clear menu-close
+                          ng-if="isLoggedIn"
+                          ng-click="logout()">
+                    Logout
                 </ion-item>
             </ion-list>
         </ion-content>

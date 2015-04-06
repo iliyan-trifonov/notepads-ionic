@@ -3,12 +3,8 @@
 angular.module('Notepads.controllers', [])
 
 .controller('AppCtrl', [
-    '$scope', '$state', 'loading', 'goToDashboard', 'User', '$ionicPlatform', 'Api',
-    function ($scope, $state, loading, goToDashboard, User, $ionicPlatform, Api) {
-
-        $ionicPlatform.ready(function() {
-            console.log('ionic platform ready');
-        });
+    '$scope', '$state', 'loading', 'goToDashboard', 'User', 'Api', '$ionicHistory',
+    function ($scope, $state, loading, goToDashboard, User, Api, $ionicHistory) {
 
         $scope.login = function () {
             console.log('login() called');
@@ -21,14 +17,20 @@ angular.module('Notepads.controllers', [])
                     initUser(
                         loginResult.authResponse.userID,
                         meResult.name,
+                        meResult.picture.data.url,
                         loginResult.authResponse.accessToken,
-                        goToDashboard
+                        function () {
+                            $scope.user = User.get();
+                            goToDashboard();
+                        }
                     );
                 }, function (result) {
                     console.log('/me error', JSON.stringify(result));
+                    loading.hide();
                 });
             }, function (error) {
-                console.log('FB error', JSON.stringify(result));
+                console.log('FB error', JSON.stringify(error));
+                loading.hide();
             });
         };
 
@@ -50,11 +52,22 @@ angular.module('Notepads.controllers', [])
             $state.go('app.categoriesadd');
         };
 
-        function initUser(fbId, name, fbAccessToken, cb) {
-            console.log('initUser() called', fbId, name, fbAccessToken);
+        $scope.logout = function () {
+            User.set({});
+            $scope.isLoggedIn = false;
+            $ionicHistory.clearHistory();
+            $ionicHistory.clearCache();
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $state.go('app.guestindex');
+        };
+
+        function initUser(fbId, name, photo, fbAccessToken, cb) {
+            console.log('initUser() called', fbId, name, photo, fbAccessToken);
             Api.users.auth(fbId, fbAccessToken)
                 .success(function (data) {
-                    User.create(fbId, name, data.accessToken);
+                    User.create(fbId, name, photo, data.accessToken);
                     $scope.isLoggedIn = true;
                     loading.hide();
                     if ("function" === typeof cb) {
@@ -74,44 +87,50 @@ angular.module('Notepads.controllers', [])
 
         var user = User.get();
         console.log('user from storage', JSON.stringify(user));
-        if (!user || !user.facebookId) {
+        if (!user || !user.accessToken) {
             console.log('not logged in');
             loading.hide();
         } else {
             console.log('local user exists');
+            $scope.user = user;
             $scope.isLoggedIn = true;
-            loading.hide();
-            goToDashboard();
+            //loading.hide();
+            //goToDashboard();
+            //$state.go('app.dashboard');
         }
 
     }
 ])
 
 .controller('MainCtrl', [
-    '$scope', 'User', 'goToDashboard',
-    function ($scope, User, goToDashboard) {
+    'User', 'goToDashboard',
+    function (User, goToDashboard) {
         console.log('MainCtrl');
+        var user = User.get();
+        if (user && user.accessToken) {
+            goToDashboard();
+        }
     }
 ])
 
 .controller('DashboardCtrl', [
-    '$scope', /*'$facebook', */'$http', '$ionicLoading', 'Api', '$rootScope', '$state',
-    function ($scope, /*$facebook, */$http, $ionicLoading, Api, $rootScope, $state) {
+    '$scope', '$http', 'loading', 'Api', '$rootScope',
+    function ($scope, $http, loading, Api, $rootScope) {
 
         var getNotepads = function (cb) {
-            $ionicLoading.show({
-                template: 'Loading...'
-            });
+
+            loading.show();
 
             Api.notepads.list().success(function (data) {
                     $scope.cats = data;
-                    //console.log('notepads from API', JSON.stringify(data));
-                    $ionicLoading.hide();
+                    loading.hide();
                     if ("function" === typeof cb) {
                         cb();
                     }
             }).error(function (data, status, headers, object) {
                 console.log('notepads api list error', data, status, headers, JSON.stringify(object));
+                //TODO: show error
+                loading.hide();
             });
         };
 

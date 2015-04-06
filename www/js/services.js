@@ -4,26 +4,21 @@ angular.module('Notepads.services', [])
 
 .service('User', [
     function () {
-        //console.log('User service called');
         return {
             get: function() {
                 return JSON.parse(window.localStorage.getItem('user')) || {};
-                /*return JSON.parse(
-                    '{"facebookId": "10204822766181234", ' +
-                    '"name": "Iliyan Trifonov", ' +
-                    '"accessToken": "d69e3be9d967dfbce617c74767980cc4"}'
-                );*/
             },
             set: function(user) {
                 return window.localStorage.setItem('user', JSON.stringify(user));
             },
-            create: function (fbId, name, accessToken) {
+            create: function (fbId, name, photo, accessToken) {
                 var user = {
                     facebookId: fbId,
                     name: name,
+                    photo: photo,
                     accessToken: accessToken
                 };
-                this.set(user);
+                return this.set(user);
             }
         };
     }
@@ -33,7 +28,6 @@ angular.module('Notepads.services', [])
     '$http', 'User', 'APIUrl',
     function ($http, User, APIUrl) {
         var apiBase = APIUrl + '/api/v1';
-        var user = User.get();
         return {
             users: {
                 auth: function(fbId, fbAccessToken) {
@@ -60,21 +54,21 @@ angular.module('Notepads.services', [])
             notepads: {
                 list: function() {
                     return $http({
-                        url: apiBase + '/notepads?insidecats=1' + '&token=' + user.accessToken,
+                        url: apiBase + '/notepads?insidecats=1' + '&token=' + User.get().accessToken,
                         method: 'GET',
                         cache: false
                     });
                 },
                 getById: function (id) {
                     return $http({
-                        url: apiBase + '/notepads/' + id + '?token=' + user.accessToken,
+                        url: apiBase + '/notepads/' + id + '?token=' + User.get().accessToken,
                         method: 'GET',
                         cache: false
                     });
                 },
                 add: function(notepad) {
                     return $http({
-                        url: apiBase + '/notepads' + '?token=' + user.accessToken,
+                        url: apiBase + '/notepads' + '?token=' + User.get().accessToken,
                         data: notepad,
                         method: 'POST',
                         cache: false
@@ -82,7 +76,7 @@ angular.module('Notepads.services', [])
                 },
                 update: function(notepad) {
                     return $http({
-                        url: apiBase + '/notepads/' + notepad._id + '?token=' + user.accessToken,
+                        url: apiBase + '/notepads/' + notepad._id + '?token=' + User.get().accessToken,
                         data: notepad,
                         method: 'PUT',
                         cache: false
@@ -90,7 +84,7 @@ angular.module('Notepads.services', [])
                 },
                 remove: function(id) {
                     return $http({
-                        url: apiBase + '/notepads/' + id + '?token=' + user.accessToken,
+                        url: apiBase + '/notepads/' + id + '?token=' + User.get().accessToken,
                         method: 'DELETE',
                         cache: false
                     });
@@ -100,21 +94,21 @@ angular.module('Notepads.services', [])
                 list: function() {
                     //console.log('categories list() called');
                     return $http({
-                        url: apiBase + '/categories' + '?token=' + user.accessToken,
+                        url: apiBase + '/categories' + '?token=' + User.get().accessToken,
                         method: 'GET',
                         cache: false
                     });
                 },
                 getById: function (id) {
                     return $http({
-                        url: apiBase + '/categories/' + id + '?token=' + user.accessToken,
+                        url: apiBase + '/categories/' + id + '?token=' + User.get().accessToken,
                         method: 'GET',
                         cache: false
                     });
                 },
                 add: function(category) {
                     return $http({
-                        url: apiBase + '/categories' + '?token=' + user.accessToken,
+                        url: apiBase + '/categories' + '?token=' + User.get().accessToken,
                         data: category,
                         method: 'POST',
                         cache: false
@@ -122,7 +116,7 @@ angular.module('Notepads.services', [])
                 },
                 update: function(category) {
                     return $http({
-                        url: apiBase + '/categories/' + category._id + '?token=' + user.accessToken,
+                        url: apiBase + '/categories/' + category._id + '?token=' + User.get().accessToken,
                         data: category,
                         method: 'PUT',
                         cache: false
@@ -130,7 +124,7 @@ angular.module('Notepads.services', [])
                 },
                 remove: function(id) {
                     return $http({
-                        url: apiBase + '/categories/' + id + '?token=' + user.accessToken,
+                        url: apiBase + '/categories/' + id + '?token=' + User.get().accessToken,
                         method: 'DELETE',
                         cache: false
                     });

@@ -1,7 +1,5 @@
 <ion-view title="Notepads" hide-back-button="true">
-    <ion-content padding="true"
-                 class="has-header"
-    >
+    <ion-content padding="true">
 
         <button class="button button-full button-positive"
                 ng-click="login()"
@@ -9,16 +7,15 @@
             Login with Facebook
         </button>
 
-        Connects the app with Facebook and the API on https://notepads.iliyan-trifonov.com.
-        You connect with Facebook only once and then your user is created on https://notepads.iliyan-trifonov.com.
-        Only your name and photo are saved on the server. After the login the whole communication is made between
-        the app and https://notepads.iliyan-trifonov.com through a secure connection.
+        <div ng-if="!isLoggedIn">
+        Connects the app with Facebook and the API on https://notepads.iliyan-trifonov.com.<br/>
+        You connect with Facebook only once and then your user is created on https://notepads.iliyan-trifonov.com.<br/>
+        Only your name and photo are saved on the server.<br/>
+        After the login the whole communication is made between the app and https://notepads.iliyan-trifonov.com
+        through a secure connection.
+        </div>
 
-        <!--<div class="row" ng-if="isLoggedIn">
-            <div class="col text-center">
-                Pres Back again to exit
-            </div>
-        </div>-->
+        <div ng-if="isLoggedIn">Logged in</div>
 
     </ion-content>
 </ion-view>
