@@ -83,6 +83,13 @@ angular.module('Notepads.controllers', [])
 
         $scope.isLoggedIn = false;
 
+        //mock (alfa)
+        //for testing in the browser
+        if ('undefined' === typeof facebookConnectPlugin) {
+            $scope.isLoggedIn = true;
+            //TODO: add/save fake user that can access the API
+        }
+
         loading.show();
 
         var user = User.get();

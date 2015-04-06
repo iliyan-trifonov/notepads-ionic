@@ -21,34 +21,40 @@
         <ion-content>
             <ion-list>
                 <ion-item nav-clear menu-close
+                          class="item-icon-left"
                           ng-if="!isLoggedIn"
                           ng-click="login()">
-                    Login
+                    <i class="icon ion-log-in"></i>Login
                 </ion-item>
                 <ion-item nav-clear menu-close
+                          class="item-icon-left"
                           ng-if="isLoggedIn"
                           href="#/app/dashboard">
-                    Dashboard
+                    <i class="icon ion-home"></i>Dashboard
                 </ion-item>
                 <ion-item nav-clear menu-close
+                          class="item-icon-left"
                           ng-if="isLoggedIn"
                           ng-click="categories()">
-                    Categories
+                    <i class="icon ion-folder"></i>Categories
                 </ion-item>
                 <ion-item nav-clear menu-close
+                          class="item-icon-left"
                           ng-if="isLoggedIn"
                           ng-click="addNotepad()">
-                    Add Notepad
+                    <i class="icon ion-document-text"></i>Add Notepad
                 </ion-item>
                 <ion-item nav-clear menu-close
+                          class="item-icon-left"
                           ng-if="isLoggedIn"
                           ng-click="addCategory()">
-                    Add Category
+                    <i class="icon ion-ios-browsers-outline"></i>Add Category
                 </ion-item>
                 <ion-item nav-clear menu-close
+                          class="item-icon-left"
                           ng-if="isLoggedIn"
                           ng-click="logout()">
-                    Logout
+                    <i class="icon ion-log-out"></i>Logout
                 </ion-item>
             </ion-list>
         </ion-content>
