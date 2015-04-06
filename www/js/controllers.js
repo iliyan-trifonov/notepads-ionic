@@ -48,7 +48,7 @@ angular.module('Notepads.controllers', [])
 
         //add some history for the back and cancel buttons
         $scope.addCategory = function () {
-            $state.go('app.dashboard');
+            //$state.go('app.categories');
             $state.go('app.categoriesadd');
         };
 
@@ -281,8 +281,8 @@ angular.module('Notepads.controllers', [])
 ])
 
 .controller('CategoryEditCtrl', [
-    '$scope', 'Api', '$stateParams', 'loading', 'cancelAndGoBack', '$state', '$rootScope',
-    function ($scope, Api, $stateParams, loading, cancelAndGoBack, $state, $rootScope) {
+    '$scope', 'Api', '$stateParams', 'loading', 'cancelAndGoBack', '$state', '$rootScope', 'goToCategories',
+    function ($scope, Api, $stateParams, loading, cancelAndGoBack, $state, $rootScope, goToCategories) {
 
         var catId = $stateParams.cid;
 
@@ -305,21 +305,18 @@ angular.module('Notepads.controllers', [])
             if (catId) {
                 Api.categories.update($scope.category).success(function (category) {
                     $rootScope.$emit('categoryupdated', 1);
-                    $state.go('app.categories');
+                    goToCategories();
                 });
             } else {
                 Api.categories.add($scope.category).success(function (category) {
-                    $state.go('app.categories');
                     //TODO: put these 2 lines in a global function/service
                     $rootScope.$emit('categoryupdated', 1);
-                    $state.go('app.categories');
+                    goToCategories();
                 });
             }
         };
 
-        $scope.cancel = function () {
-            cancelAndGoBack();
-        };
+        $scope.cancel = cancelAndGoBack;
 
     }
 ])

@@ -134,16 +134,38 @@ angular.module('Notepads.services', [])
     }
 ])
 
-.service('goToDashboard', [
-    '$ionicHistory', '$state',
-    function ($ionicHistory, $state) {
+.service('clearHistory', [
+    '$ionicHistory',
+    function ($ionicHistory) {
         return function () {
             $ionicHistory.clearHistory();
             $ionicHistory.clearCache();
             $ionicHistory.nextViewOptions({
                 disableBack: true
             });
+        };
+    }
+])
+
+.service('goToDashboard', [
+    'clearHistory', '$state',
+    function (cleanHistory, $state) {
+        return function () {
+            cleanHistory();
             $state.go('app.dashboard');
+        };
+    }
+])
+
+.service('goToCategories', [
+    'clearHistory', '$state', '$ionicHistory',
+    function (clearHistory, $state, $ionicHistory) {
+        return function () {
+            //clearHistory();
+            //$state.go('app.dashboard');
+            //remove the add/edit cat from the history //rearrange history
+            $ionicHistory.currentView($ionicHistory.backView());
+            $state.go('app.categories');
         };
     }
 ])
@@ -164,6 +186,7 @@ angular.module('Notepads.services', [])
             show: function () {
                 $ionicLoading.show({
                     template: 'Loading...'
+                    //duration: 10s ?
                 });
             },
             hide: function () {

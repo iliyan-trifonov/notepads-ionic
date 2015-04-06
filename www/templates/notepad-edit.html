@@ -1,4 +1,4 @@
-<ion-view title="Notepad :: {{topTitle}}">
+<ion-view title="Notepad :: {{topTitle}}" cache-view="false">
 
     <ion-content ng-show="notepad || isAdd"
                  has-bouncing="true"
@@ -29,10 +29,10 @@
             </label>
 
 
-                <textarea ng-model="notepad.text"
-                          placeholder="Text"
-                          class="full padding"
-                        ></textarea>
+            <textarea ng-model="notepad.text"
+                      placeholder="Text"
+                      class="full padding"
+                    ></textarea>
 
         </div>
 
