@@ -3,7 +3,8 @@
 angular.module('Notepads', [
     'ionic',
     'Notepads.controllers',
-    'Notepads.services'
+    'Notepads.services',
+    'ngSanitize'
 ])
 
 .constant('APIUrl', NotepadsConfig.APIURL)

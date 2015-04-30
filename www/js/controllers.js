@@ -170,8 +170,6 @@ angular.module('Notepads.controllers', [])
         Api.notepads.getById($stateParams.id)
             .success(function (notepad) {
                 //console.log('notepad from API', JSON.stringify(notepad));
-                //notepad.text = notepad.text.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-                notepad.text = notepad.text.replace(/$/mg, '<br/>');
                 $scope.notepad = notepad;
                 $ionicLoading.hide();
             });
