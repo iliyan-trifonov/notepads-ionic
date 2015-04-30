@@ -1,0 +1,9 @@
+var NotepadsConfig = {
+    "APIURL": "https://notepads.iliyan-trifonov.com/api/v1",
+    "mockUser": {
+        "fbId": "",
+        "name": "",
+        "photo": "",
+        "accessToken": ""
+    }
+};

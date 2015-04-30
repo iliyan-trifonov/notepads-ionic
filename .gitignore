@@ -5,3 +5,6 @@ node_modules/
 platforms/
 plugins/
 .idea/
+*.apk
+*.keystore
+www/js/config.js

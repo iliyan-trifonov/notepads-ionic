@@ -27,7 +27,7 @@ angular.module('Notepads.services', [])
 .service('Api', [
     '$http', 'User', 'APIUrl',
     function ($http, User, APIUrl) {
-        var apiBase = APIUrl + '/api/v1';
+        var apiBase = APIUrl;
         return {
             users: {
                 auth: function(fbId, fbAccessToken) {
