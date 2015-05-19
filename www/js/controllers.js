@@ -155,6 +155,9 @@ angular.module('Notepads.controllers', [])
         $rootScope.$on('categoryupdated', function () {
             getNotepads();
         });
+        $rootScope.$on('notepadupdated', function () {
+            getNotepads();
+        });
 
     }
 ])
@@ -177,26 +180,25 @@ angular.module('Notepads.controllers', [])
 ])
 
 .controller('NotepadEditCtrl', [
-    '$scope', '$stateParams', 'Api', 'goToDashboard', 'loading', 'cancelAndGoBack',
-    function ($scope, $stateParams, Api, goToDashboard, loading, cancelAndGoBack) {
+    '$scope', '$stateParams', 'Api', 'goToDashboard', 'loading', 'cancelAndGoBack', '$rootScope', '$log',
+    function ($scope, $stateParams, Api, goToDashboard, loading, cancelAndGoBack, $rootScope, $log) {
 
         $scope.update = function () {
             loading.show();
 
             if ($stateParams.id) {
-                Api.notepads.update($scope.notepad).success(function (notepad) {
+                Api.notepads.update($scope.notepad).success(function (/*notepad*/) {
                     loading.hide();
-                    //console.log('notepad updated', notepad);
+                    $rootScope.$emit('notepadupdated', 1);
                     goToDashboard();
                 });
             } else {
-                console.log('sending api notepads add', $scope.notepad);
-                Api.notepads.add($scope.notepad).success(function (notepad) {
+                Api.notepads.add($scope.notepad).success(function (/*notepad*/) {
                     loading.hide();
-                    //console.log('notepad added', notepad);
+                    $rootScope.$emit('notepadupdated', 1);
                     goToDashboard();
                 }).error(function (data, status, headers, obj) {
-                    console.log('notepad add err', data, status, headers, obj);
+                    $log.error('notepad add err', data, status, headers, obj);
                 });
             }
         };
@@ -235,24 +237,22 @@ angular.module('Notepads.controllers', [])
             }
         }).error(function (data, status, headers, object) {
             loading.hide();
-            console.log('categories list err', data, status, headers, JSON.stringify(object));
+            $log.error('categories list err', data, status, headers, JSON.stringify(object));
         });
 
     }
 ])
 
 .controller('NotepadDelCtrl', [
-    '$scope', '$stateParams', 'Api', '$ionicLoading', 'goToDashboard', 'cancelAndGoBack',
-    function ($scope, $stateParams, Api, $ionicLoading, goToDashboard, cancelAndGoBack) {
+    '$scope', '$stateParams', 'Api', '$ionicLoading', 'goToDashboard', 'cancelAndGoBack', 'loading', '$rootScope',
+    function ($scope, $stateParams, Api, $ionicLoading, goToDashboard, cancelAndGoBack, loading, $rootScope) {
 
         //TODO: rename to remove()
         $scope.remove = function () {
-            $ionicLoading.show({
-                template: 'Loading...'
-            });
-            Api.notepads.remove($scope.notepad._id).success(function (notepad) {
-                $ionicLoading.hide();
-                //console.log('notepad deleted', notepad);
+            loading.show();
+            Api.notepads.remove($scope.notepad._id).success(function (/*notepad*/) {
+                loading.hide();
+                $rootScope.$emit('notepadupdated', 1);
                 goToDashboard();
             });
         };
@@ -261,15 +261,13 @@ angular.module('Notepads.controllers', [])
             cancelAndGoBack();
         };
 
-        $ionicLoading.show({
-            template: 'Loading...'
-        });
+        loading.show();
 
+        //TODO: add error + loading hide/err popup
         Api.notepads.getById($stateParams.id)
             .success(function (notepad) {
-                //console.log('notepad from API', notepad);
                 $scope.notepad = notepad;
-                $ionicLoading.hide();
+                loading.hide();
             });
     }
 ])
