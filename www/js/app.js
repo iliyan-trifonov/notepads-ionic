@@ -10,7 +10,7 @@ angular.module('Notepads', [
 .constant('APIUrl', NotepadsConfig.APIURL)
 .constant('mockUser', NotepadsConfig.mockUser)
 
-.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider) {
 
     $ionicConfigProvider.views.transition('none');
 
@@ -134,6 +134,15 @@ angular.module('Notepads', [
         })
     ;
     $urlRouterProvider.otherwise('/app/guestindex');
+
+    $httpProvider.interceptors.push(function(User) {
+        return {
+            'request': function(config) {
+                config.headers['x-access-token'] = User.get().accessToken;
+                return config;
+            }
+        };
+    });
 })
 
 .run(function($ionicPlatform) {

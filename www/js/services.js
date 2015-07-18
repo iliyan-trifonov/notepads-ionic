@@ -54,21 +54,21 @@ angular.module('Notepads.services', [])
             notepads: {
                 list: function() {
                     return $http({
-                        url: apiBase + '/notepads?insidecats=1' + '&token=' + User.get().accessToken,
+                        url: apiBase + '/notepads?insidecats=1',
                         method: 'GET',
                         cache: false
                     });
                 },
                 getById: function (id) {
                     return $http({
-                        url: apiBase + '/notepads/' + id + '?token=' + User.get().accessToken,
+                        url: apiBase + '/notepads/' + id,
                         method: 'GET',
                         cache: false
                     });
                 },
                 add: function(notepad) {
                     return $http({
-                        url: apiBase + '/notepads' + '?token=' + User.get().accessToken,
+                        url: apiBase + '/notepads',
                         data: notepad,
                         method: 'POST',
                         cache: false
@@ -76,7 +76,7 @@ angular.module('Notepads.services', [])
                 },
                 update: function(notepad) {
                     return $http({
-                        url: apiBase + '/notepads/' + notepad._id + '?token=' + User.get().accessToken,
+                        url: apiBase + '/notepads/' + notepad._id,
                         data: notepad,
                         method: 'PUT',
                         cache: false
@@ -84,7 +84,7 @@ angular.module('Notepads.services', [])
                 },
                 remove: function(id) {
                     return $http({
-                        url: apiBase + '/notepads/' + id + '?token=' + User.get().accessToken,
+                        url: apiBase + '/notepads/' + id,
                         method: 'DELETE',
                         cache: false
                     });
@@ -94,21 +94,21 @@ angular.module('Notepads.services', [])
                 list: function() {
                     //console.log('categories list() called');
                     return $http({
-                        url: apiBase + '/categories' + '?token=' + User.get().accessToken,
+                        url: apiBase + '/categories',
                         method: 'GET',
                         cache: false
                     });
                 },
                 getById: function (id) {
                     return $http({
-                        url: apiBase + '/categories/' + id + '?token=' + User.get().accessToken,
+                        url: apiBase + '/categories/' + id,
                         method: 'GET',
                         cache: false
                     });
                 },
                 add: function(category) {
                     return $http({
-                        url: apiBase + '/categories' + '?token=' + User.get().accessToken,
+                        url: apiBase + '/categories',
                         data: category,
                         method: 'POST',
                         cache: false
@@ -116,7 +116,7 @@ angular.module('Notepads.services', [])
                 },
                 update: function(category) {
                     return $http({
-                        url: apiBase + '/categories/' + category._id + '?token=' + User.get().accessToken,
+                        url: apiBase + '/categories/' + category._id,
                         data: category,
                         method: 'PUT',
                         cache: false
@@ -124,7 +124,7 @@ angular.module('Notepads.services', [])
                 },
                 remove: function(id) {
                     return $http({
-                        url: apiBase + '/categories/' + id + '?token=' + User.get().accessToken,
+                        url: apiBase + '/categories/' + id,
                         method: 'DELETE',
                         cache: false
                     });
