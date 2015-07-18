@@ -9,7 +9,7 @@
                  class="has-header"
                  has-bouncing="true">
 
-        <ion-list ng-repeat="cat in categories | orderBy: 'name'">
+        <ion-list ng-repeat="cat in categories | orderBy: 'name' track by cat._id">
             <ion-item class="item-button-right">
                 {{cat.name}} <small>({{cat.notepadsCount}})</small>
                 <div class="buttons">

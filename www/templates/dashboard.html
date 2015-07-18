@@ -9,7 +9,7 @@
                  class="has-header"
                  has-bouncing="true">
 
-        <ion-list ng-repeat="cat in cats | orderBy: 'name'">
+        <ion-list ng-repeat="cat in cats | orderBy: 'name' track by cat._id">
             <ion-item class="item-divider item-icon-right">
                 {{cat.name}}
                 <a class="icon ion-ios-plus-empty"
@@ -18,7 +18,7 @@
             </ion-item>
 
             <ion-item href="#/app/notepads/{{notepad._id}}"
-                      ng-repeat="notepad in cat.notepads | orderBy: '-_id'"
+                      ng-repeat="notepad in cat.notepads | orderBy: '-_id' track by notepad._id"
                     >
                 {{notepad.title}}
             </ion-item>
