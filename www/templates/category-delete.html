@@ -1,14 +1,18 @@
-<ion-view title="Category :: Delete">
+<ion-view title="Category :: Delete" cache-view="false">
     <ion-content padding="true"
                  class="has-header"
                  ng-show="category"
             >
 
         <div class="row text-center">
-            Are you sure you want to delete category '{{category.name}}' ?
+            <div class="col">
+                Are you sure you want to delete category '{{category.name}}' ?
+            </div>
         </div>
         <div class="row assertive">
-            This will delete ALL Notepads in that category!
+            <div class="col">
+                This will delete ALL Notepads in that category!
+            </div>
         </div>
 
         <div class="row">

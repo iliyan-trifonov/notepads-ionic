@@ -1,11 +1,13 @@
-<ion-view title="Notepad Delete">
+<ion-view title="Notepad Delete" cache-view="false">
     <ion-content padding="true"
                  class="has-header"
                  ng-show="notepad"
     >
 
         <div class="row text-center">
-            Are you sure you want to delete notepad '{{notepad.title}}' ?
+            <div class="col">
+                Are you sure you want to delete notepad '{{notepad.title}}' ?
+            </div>
         </div>
 
         <div class="row">

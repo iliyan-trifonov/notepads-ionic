@@ -149,9 +149,9 @@ angular.module('Notepads.services', [])
 
 .service('goToDashboard', [
     'clearHistory', '$state',
-    function (cleanHistory, $state) {
+    function (clearHistory, $state) {
         return function () {
-            cleanHistory();
+            clearHistory();
             $state.go('app.dashboard');
         };
     }
@@ -171,10 +171,16 @@ angular.module('Notepads.services', [])
 ])
 
 .service('cancelAndGoBack', [
-    '$ionicHistory',
-    function ($ionicHistory) {
-        return function () {
-            $ionicHistory.goBack();
+    '$ionicHistory', '$state', 'clearHistory',
+    function ($ionicHistory, $state, clearHistory) {
+        return function (customState) {
+            if ($ionicHistory.viewHistory().backView) {
+                $ionicHistory.goBack();
+            } else {
+                //workaround when history is deleted
+                clearHistory();
+                $state.go(customState ? customState : 'app.dashboard');
+            }
         };
     }
 ])

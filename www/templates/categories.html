@@ -7,16 +7,16 @@
 
     <ion-content padding="true"
                  class="has-header"
-                 has-bouncing="true">
+                 ng-show="categories">
 
         <ion-list ng-repeat="cat in categories | orderBy: 'name' track by cat._id">
             <ion-item class="item-button-right">
                 {{cat.name}} <small>({{cat.notepadsCount}})</small>
                 <div class="buttons">
                 <a class="button button-icon icon ion-edit"
-                   href="#/app/categories/{{cat._id}}/edit"></a>
+                    ng-click="editCat(cat._id)"></a>
                 <a class="button button-icon icon ion-android-delete assertive"
-                   href="#/app/categories/{{cat._id}}/delete"></a>
+                   ng-click="deleteCat(cat._id)"></a>
                 </div>
             </ion-item>
         </ion-list>

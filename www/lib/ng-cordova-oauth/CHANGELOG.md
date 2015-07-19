@@ -1,3 +1,23 @@
+0.1.4 - June 28, 2015
+
+* Add Envato support
+* Add optional `options` parameter to more providers
+* Add optional re-request for permissions to Facebook provider
+
+0.1.3 - June 7, 2015
+
+* Refactor code to function as submodule
+* Add Family Search support
+
+0.1.2 - May 24, 2015
+
+* Add Windows Live Connect support
+* Add Yammer support
+* Add Venmo support
+* Add Stripe support
+* Add Rally support
+* Apache Cordova Whitelist plugin is now required and is noted in the documentation
+
 0.1.1 - May 4, 2015
 
 * Fix InAppBrowser checks to `cordova-plugin-inappbrowser` instead of `org.apache.cordova.inappbrowser`

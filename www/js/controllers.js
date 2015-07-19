@@ -7,13 +7,13 @@ angular.module('Notepads.controllers', [])
     function ($scope, $state, loading, goToDashboard, User, Api, $ionicHistory, $ionicPlatform, mockUser) {
 
         $scope.login = function () {
-            console.log('login() called');
+            //console.log('login() called');
             loading.show();
             facebookConnectPlugin.login([], function (loginResult) {
-                console.log('FB success', JSON.stringify(loginResult));
-                console.log('calling /me ..');
+                //console.log('FB success', JSON.stringify(loginResult));
+                //console.log('calling /me ..');
                 facebookConnectPlugin.api('/me?fields=id,name,picture', [],function (meResult) {
-                    console.log('/me success', JSON.stringify(meResult));
+                    //console.log('/me success', JSON.stringify(meResult));
                     initUser(
                         loginResult.authResponse.userID,
                         meResult.name,
@@ -24,25 +24,25 @@ angular.module('Notepads.controllers', [])
                             goToDashboard();
                         }
                     );
-                }, function (result) {
-                    console.log('/me error', JSON.stringify(result));
+                }, function (/*result*/) {
+                    //console.log('/me error', JSON.stringify(result));
                     loading.hide();
                 });
-            }, function (error) {
-                console.log('FB error', JSON.stringify(error));
+            }, function (/*error*/) {
+                //console.log('FB error', JSON.stringify(error));
                 loading.hide();
             });
         };
 
         //add some history for the back and cancel buttons
         $scope.categories = function () {
-            $state.go('app.dashboard');
+            //$state.go('app.dashboard');
             $state.go('app.categories');
         };
 
         //add some history for the back and cancel buttons
         $scope.addNotepad = function () {
-            $state.go('app.dashboard');
+            //$state.go('app.dashboard');
             $state.go('app.notepadsadd');
         };
 
@@ -64,7 +64,7 @@ angular.module('Notepads.controllers', [])
         };
 
         function initUser(fbId, name, photo, fbAccessToken, cb) {
-            console.log('initUser() called', fbId, name, photo, fbAccessToken);
+            //console.log('initUser() called', fbId, name, photo, fbAccessToken);
             Api.users.auth(fbId, fbAccessToken)
                 .success(function (data) {
                     User.create(fbId, name, photo, data.accessToken);
@@ -77,7 +77,7 @@ angular.module('Notepads.controllers', [])
                 .error(function (data, status) {
                     loading.hide();
                     $scope.appError = 'initUser error ' + status + ', ' + data;
-                    console.log($scope.appError);
+                    //console.log($scope.appError);
                 });
         }
 
@@ -101,12 +101,12 @@ angular.module('Notepads.controllers', [])
         loading.show();
 
         var user = User.get();
-        console.log('user from storage', JSON.stringify(user));
+        //console.log('user from storage', JSON.stringify(user));
         if (!user || !user.accessToken) {
-            console.log('not logged in');
+            //console.log('not logged in');
             loading.hide();
         } else {
-            console.log('local user exists');
+            //console.log('local user exists');
             $scope.user = user;
             $scope.isLoggedIn = true;
             //loading.hide();
@@ -120,7 +120,7 @@ angular.module('Notepads.controllers', [])
 .controller('MainCtrl', [
     'User', 'goToDashboard',
     function (User, goToDashboard) {
-        console.log('MainCtrl');
+        //console.log('MainCtrl');
         var user = User.get();
         if (user && user.accessToken) {
             goToDashboard();
@@ -143,7 +143,7 @@ angular.module('Notepads.controllers', [])
                         cb();
                     }
             }).error(function (data, status, headers, object) {
-                console.log('notepads api list error', data, status, headers, JSON.stringify(object));
+                //console.log('notepads api list error', data, status, headers, JSON.stringify(object));
                 //TODO: show error
                 loading.hide();
             });
@@ -163,18 +163,16 @@ angular.module('Notepads.controllers', [])
 ])
 
 .controller('NotepadCtrl', [
-    '$scope', '$stateParams', 'Api', '$ionicLoading',
-    function ($scope, $stateParams, Api, $ionicLoading) {
+    '$scope', '$stateParams', 'Api', '$ionicLoading', 'loading',
+    function ($scope, $stateParams, Api, $ionicLoading, loading) {
 
-        $ionicLoading.show({
-            template: 'Loading...'
-        });
+        loading.show();
 
         Api.notepads.getById($stateParams.id)
             .success(function (notepad) {
                 //console.log('notepad from API', JSON.stringify(notepad));
                 $scope.notepad = notepad;
-                $ionicLoading.hide();
+                loading.hide();
             });
     }
 ])
@@ -273,18 +271,28 @@ angular.module('Notepads.controllers', [])
 ])
 
 .controller('CategoriesCtrl', [
-    '$scope', 'Api', '$rootScope',
-    function ($scope, Api, $rootScope) {
+    '$scope', 'Api', '$rootScope', 'loading', '$state',
+    function ($scope, Api, $rootScope, loading, $state) {
 
         function getCatsList() {
             Api.categories.list().success(function (categories) {
                 $scope.categories = categories;
+                loading.hide();
             });
         }
 
         $rootScope.$on('categoryupdated', function () {
             getCatsList();
         });
+
+        //trying some things with the history from #/app/categories
+        $scope.editCat = function (catId) {
+            $state.go('app.categoriesedit', { cid: catId });
+        };
+
+        $scope.deleteCat = function (catId) {
+            $state.go('app.categoriesdelete', { cid: catId });
+        };
 
         getCatsList();
 
@@ -327,27 +335,30 @@ angular.module('Notepads.controllers', [])
             }
         };
 
-        $scope.cancel = cancelAndGoBack;
+        $scope.cancel = function () {
+            cancelAndGoBack('app.categories');
+        };
 
     }
 ])
 
 .controller('CategoryDelCtrl', [
-        '$scope', 'loading', '$stateParams', 'cancelAndGoBack', 'Api', '$rootScope', '$state',
-        function ($scope, loading, $stateParams, cancelAndGoBack, Api, $rootScope, $state) {
+        '$scope', 'loading', '$stateParams', 'cancelAndGoBack', 'Api', '$rootScope', 'goToCategories',
+        function ($scope, loading, $stateParams, cancelAndGoBack, Api, $rootScope, goToCategories) {
             Api.categories.getById($stateParams.cid).success(function (category) {
                 $scope.category = category;
+                loading.hide();
             });
 
             $scope.remove = function () {
-                Api.categories.remove($stateParams.cid).success(function (category) {
+                Api.categories.remove($stateParams.cid).success(function (/*category*/) {
                     $rootScope.$emit('categoryupdated', 1);
-                    $state.go('app.categories');
+                    goToCategories();
                 });
             };
 
             $scope.cancel = function () {
-                cancelAndGoBack();
+                cancelAndGoBack('app.categories');
             };
         }
     ])
