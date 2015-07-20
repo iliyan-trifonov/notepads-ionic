@@ -12,7 +12,7 @@ angular.module('Notepads', [
 
 .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider) {
 
-    $ionicConfigProvider.views.transition('none');
+    //$ionicConfigProvider.views.transition('none');
 
     $stateProvider
 
