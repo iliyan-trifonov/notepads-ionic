@@ -285,7 +285,6 @@ angular.module('Notepads.controllers', [])
             getCatsList();
         });
 
-        //trying some things with the history from #/app/categories
         $scope.editCat = function (catId) {
             $state.go('app.categoriesedit', { cid: catId });
         };
