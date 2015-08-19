@@ -8,3 +8,5 @@ plugins/
 *.apk
 *.keystore
 www/js/config.js
+www/lib/angular*
+www/lib/ionic
