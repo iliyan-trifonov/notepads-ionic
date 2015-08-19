@@ -11,7 +11,17 @@ First copy the www/js/config.js.dist to www/js/config.js and put your settings i
 
 The Facebook plugin(com.phonegap.plugins.facebookconnect) works only with emulators and mobile devices and provides the best connect experience using the locally installed Facebook app or falls back to a browser login. This makes it very fast and easy to just tap login on this app and forget.
 
-Install required npm and bower modules:
+## Install
+
+First install Ionic and Cordova if you haven't already:
+
+    npm install -g cordova ionic
+    
+Now you will be able to use the ionic command line tool and run `ionic serve` to test the app in your local browser. 
+But you will need more if you're really going to build android and ios apps. For the complete installation instructions 
+[click here](http://ionicframework.com/docs/guide/installation.html).
+
+After you have `Ionic` installed run the following command to install the required `npm` and `bower` modules:
 
     npm install && bower install
 
@@ -28,7 +38,7 @@ The Facebook plugin is installed manually:
     cordova -d plugin add ~/phonegap-facebook-plugin/ --variable APP_ID="YOUR FB APP ID" --variable APP_NAME="YOUR FB APP NAME"
     ionic build android
 
-Run the application:
+## Run the application
 
 It can be fully tested in the browser locally:
 
