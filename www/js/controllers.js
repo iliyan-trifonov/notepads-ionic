@@ -181,6 +181,8 @@ angular.module('Notepads.controllers', [])
     '$scope', '$stateParams', 'Api', 'goToDashboard', 'loading', 'cancelAndGoBack', '$rootScope', '$log',
     function ($scope, $stateParams, Api, goToDashboard, loading, cancelAndGoBack, $rootScope, $log) {
 
+        $scope.categories = [];
+
         $scope.update = function () {
             loading.show();
 
@@ -273,6 +275,8 @@ angular.module('Notepads.controllers', [])
 .controller('CategoriesCtrl', [
     '$scope', 'Api', '$rootScope', 'loading', '$state',
     function ($scope, Api, $rootScope, loading, $state) {
+
+        $scope.categories = [];
 
         function getCatsList() {
             Api.categories.list().success(function (categories) {
