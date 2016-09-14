@@ -1,3 +1,4 @@
+(function(){
 'use strict';
 
 angular.module('Notepads.controllers', [])
@@ -7,13 +8,9 @@ angular.module('Notepads.controllers', [])
     function ($scope, $state, loading, goToDashboard, User, Api, $ionicHistory, $ionicPlatform, mockUser) {
 
         $scope.login = function () {
-            //console.log('login() called');
             loading.show();
-            facebookConnectPlugin.login([], function (loginResult) {
-                //console.log('FB success', JSON.stringify(loginResult));
-                //console.log('calling /me ..');
+            facebookConnectPlugin.login(["public_profile"], function (loginResult) {
                 facebookConnectPlugin.api('/me?fields=id,name,picture', [],function (meResult) {
-                    //console.log('/me success', JSON.stringify(meResult));
                     initUser(
                         loginResult.authResponse.userID,
                         meResult.name,
@@ -24,12 +21,10 @@ angular.module('Notepads.controllers', [])
                             goToDashboard();
                         }
                     );
-                }, function (/*result*/) {
-                    //console.log('/me error', JSON.stringify(result));
+                }, function (result) {
                     loading.hide();
                 });
-            }, function (/*error*/) {
-                //console.log('FB error', JSON.stringify(error));
+            }, function (error) {
                 loading.hide();
             });
         };
@@ -64,20 +59,17 @@ angular.module('Notepads.controllers', [])
         };
 
         function initUser(fbId, name, photo, fbAccessToken, cb) {
-            //console.log('initUser() called', fbId, name, photo, fbAccessToken);
             Api.users.auth(fbId, fbAccessToken)
-                .success(function (data) {
-                    User.create(fbId, name, photo, data.accessToken);
+                .then(function (response) {
+                    User.create(fbId, name, photo, response.data.accessToken);
                     $scope.isLoggedIn = true;
                     loading.hide();
                     if ("function" === typeof cb) {
                         cb();
                     }
-                })
-                .error(function (data, status) {
+                }, function (response) {
                     loading.hide();
-                    $scope.appError = 'initUser error ' + status + ', ' + data;
-                    //console.log($scope.appError);
+                    $scope.appError = 'initUser error ' + response.status + ', ' + response.data;
                 });
         }
 
@@ -103,10 +95,8 @@ angular.module('Notepads.controllers', [])
         var user = User.get();
         //console.log('user from storage', JSON.stringify(user));
         if (!user || !user.accessToken) {
-            //console.log('not logged in');
             loading.hide();
         } else {
-            //console.log('local user exists');
             $scope.user = user;
             $scope.isLoggedIn = true;
             //loading.hide();
@@ -367,3 +357,4 @@ angular.module('Notepads.controllers', [])
     ])
 
 ;
+})();

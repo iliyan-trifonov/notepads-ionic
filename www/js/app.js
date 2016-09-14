@@ -1,3 +1,4 @@
+(function(){
 'use strict';
 
 angular.module('Notepads', [
@@ -167,3 +168,4 @@ angular.module('Notepads', [
 })
 
 ;
+})();
